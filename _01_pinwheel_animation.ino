@@ -191,4 +191,18 @@ CRGB pinwheelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y) 
     pinwheel_green_frames[frame][y*kMatrixWidth+x],
     pinwheel_blue_frames[frame][y*kMatrixWidth+x]
   );
-}
+
+void pinWheelLoop()
+{
+  for( byte i = 0; i < 60; i++) {
+    for( byte y = 0; y < kMatrixHeight; y++) {
+      for( byte x = 0; x < kMatrixWidth; x++) {
+        CRGB color = pinwheelAnimationColorAtFramePosition(i, x, y);
+        leds[ XY(x, y)] = color;
+      }
+    }
+
+    FastLED.show();
+    FastLED.delay(1);
+  }
+}}

@@ -57,3 +57,19 @@ CRGB heartunnelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y
     heartunnel_blue_frames[frame][y*kMatrixWidth+x]
   );
 }
+
+void heartLoop()
+{
+  for( byte i = 0; i < 15; i++) {
+    for( byte y = 0; y < kMatrixHeight; y++) {
+      for( byte x = 0; x < kMatrixWidth; x++) {
+        CRGB color = heartunnelAnimationColorAtFramePosition(i, x, y);
+        leds[ XY(x, y)] = color;
+      }
+    }
+
+    FastLED.show();
+    FastLED.delay(25);
+  }
+}
+
