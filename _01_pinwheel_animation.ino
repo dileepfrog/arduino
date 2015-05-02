@@ -191,6 +191,7 @@ CRGB pinwheelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y) 
     pinwheel_green_frames[frame][y*kMatrixWidth+x],
     pinwheel_blue_frames[frame][y*kMatrixWidth+x]
   );
+}
 
 void pinWheelLoop()
 {
@@ -205,4 +206,4 @@ void pinWheelLoop()
     FastLED.show();
     FastLED.delay(1);
   }
-}}
+}
