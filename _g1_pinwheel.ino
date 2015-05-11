@@ -185,6 +185,9 @@ prog_uint8_t const pinwheel_blue_frames[][16*16] PROGMEM = {
 {94,94,94,94,94,94,94,94,94,94,53,53,53,53,53,46,134,134,134,134,134,134,94,94,94,94,94,53,53,53,53,46,134,134,134,134,134,134,134,134,94,94,94,53,53,53,53,46,134,134,134,134,134,134,134,134,134,134,94,94,53,53,53,46,134,134,134,141,141,141,141,141,141,134,94,94,53,53,53,46,134,141,141,141,141,188,188,163,188,141,134,94,53,53,53,46,141,141,141,189,188,150,64,52,46,188,134,94,53,53,46,46,141,141,141,188,150,64,94,38,38,64,141,94,53,53,46,46,141,141,188,188,150,51,134,38,38,150,134,94,53,46,46,46,141,141,188,188,150,64,53,141,188,135,94,53,53,46,46,46,141,189,188,188,150,64,46,53,94,53,53,46,46,46,46,64,141,188,188,188,150,150,64,46,46,46,46,46,46,64,64,64,141,188,188,188,150,150,64,64,64,64,64,64,64,64,64,64,141,188,188,188,188,150,150,150,64,64,64,64,64,64,64,64,141,188,188,188,188,150,150,150,150,150,64,64,64,64,64,64,141,188,188,188,188,188,150,150,150,150,150,150,150,150,150,150}
 };
 
+uint8_t pinwheelCurrentFrame = 0;
+uint8_t pinwheelNumFrames = 60;
+
 CRGB pinwheelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y) {
   return CRGB(
     pinwheel_red_frames[frame][y*kMatrixWidth+x],
@@ -195,15 +198,12 @@ CRGB pinwheelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y) 
 
 void pinWheelLoop()
 {
-  for( byte i = 0; i < 60; i++) {
-    for( byte y = 0; y < kMatrixHeight; y++) {
-      for( byte x = 0; x < kMatrixWidth; x++) {
-        CRGB color = pinwheelAnimationColorAtFramePosition(i, x, y);
-        leds[ XY(x, y)] = color;
-      }
+  for( byte y = 0; y < kMatrixHeight; y++) {
+    for( byte x = 0; x < kMatrixWidth; x++) {
+      //CRGB color = pinwheelAnimationColorAtFramePosition(pinwheelCurrentFrame, x, y);
+      CRGB color = CRGBInHeart(pinwheelAnimationColorAtFramePosition(pinwheelCurrentFrame, x, y), x, y);
+      leds[XY(x, y)] = color;
     }
-
-    FastLED.show();
-    FastLED.delay(1);
   }
+  pinwheelCurrentFrame = (pinwheelCurrentFrame + 1) % pinwheelNumFrames;
 }

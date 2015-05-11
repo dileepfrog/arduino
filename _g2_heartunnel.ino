@@ -50,6 +50,9 @@ prog_uint8_t const heartunnel_blue_frames[][16*16] PROGMEM = {
 {148,130,125,123,123,134,152,164,151,155,134,123,123,125,130,148,125,118,94,58,52,71,110,158,155,115,71,52,58,94,121,125,115,71,9,1,1,1,13,85,92,13,1,1,1,1,71,115,85,1,1,10,19,40,33,2,8,27,40,19,6,1,1,76,36,1,10,27,118,128,105,75,69,105,128,121,25,10,0,28,9,1,12,105,111,29,54,64,70,54,29,111,105,15,1,9,9,1,21,123,38,63,74,67,67,70,63,38,135,21,2,9,36,1,12,115,53,73,65,65,65,65,69,53,123,18,1,28,76,0,8,59,105,53,67,67,67,67,53,98,66,4,0,76,121,44,0,9,85,98,53,67,67,53,98,93,10,0,36,115,130,110,36,0,6,69,105,72,64,105,69,7,0,36,110,130,155,134,110,52,0,7,33,93,93,33,0,1,44,110,130,155,163,157,140,121,85,18,1,4,6,1,18,76,121,140,157,163,160,165,164,149,125,110,58,9,0,52,110,125,149,160,165,160,141,160,151,163,157,139,123,94,94,123,139,157,163,164,160,141,58,117,160,160,165,164,152,130,130,152,164,165,160,160,121,58}
 };
 
+uint8_t heartunnelCurrentFrame = 0;
+uint8_t heartunnelNumFrames = 15;
+
 CRGB heartunnelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y) {
   return CRGB(
     heartunnel_red_frames[frame][y*kMatrixWidth+x],
@@ -60,16 +63,12 @@ CRGB heartunnelAnimationColorAtFramePosition(uint8_t frame, uint8_t x, uint8_t y
 
 void heartLoop()
 {
-  for( byte i = 0; i < 15; i++) {
-    for( byte y = 0; y < kMatrixHeight; y++) {
-      for( byte x = 0; x < kMatrixWidth; x++) {
-        CRGB color = heartunnelAnimationColorAtFramePosition(i, x, y);
-        leds[ XY(x, y)] = color;
-      }
+  for( byte y = 0; y < kMatrixHeight; y++) {
+    for( byte x = 0; x < kMatrixWidth; x++) {
+      CRGB color = heartunnelAnimationColorAtFramePosition(heartunnelCurrentFrame, x, y);
+      leds[ XY(x, y)] = color;
     }
-
-    FastLED.show();
-    FastLED.delay(25);
   }
+  heartunnelCurrentFrame = (heartunnelCurrentFrame + 1) % heartunnelNumFrames;
 }
 

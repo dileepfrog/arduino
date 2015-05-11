@@ -2,8 +2,8 @@
 #include <OctoWS2811.h>
 #include <FastLED.h>
 
-#define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Encoder.h>
+#include "RotaryEncoderWithButton.h"
 
 #define COLOR_ORDER GRB
 #define CHIPSET OCTOWS2811
@@ -21,40 +21,34 @@ const uint8_t kMatrixHeight = 16;
 CRGB leds[NUM_LEDS];
 
 // Rotary encoder to select animation
-uint8_t animationIndex = 0;
-uint8_t numAnimations = 2;
-Encoder encoder(5, 9);
-long currentEncoderPosition  = -999;
+// pinA, pinB, pinButton
+RotaryEncoderWithButton encoder(5,9,10);
+uint8_t animationIndex = 0; // Updated by readEncoderPosition
+uint8_t numAnimations = 5;
+bool heartModeEnabled = false;
 
-void loop()
-{
-  long newEncoderPosition = encoder.read();
-  if (newEncoderPosition != currentEncoderPosition) {
-    if (newEncoderPosition > currentEncoderPosition)
-      animationIndex = (animationIndex+1)%numAnimations; 
-    else
-      animationIndex = (animationIndex-1)%numAnimations; 
-      
-    currentEncoderPosition = newEncoderPosition;
-    Serial.println(currentEncoderPosition);
-  }
+void loop() {
+  readEncoderPosition();
 
-  if (animationIndex == 0)
+  if (animationIndex == 0) {
     pinWheelLoop();
-  else
-    heartLoop();
-}
-
-void DrawOneFrame( byte startHue8, int8_t yHueDelta8, int8_t xHueDelta8)
-{
-  byte lineStartHue = startHue8;
-  for( byte y = 0; y < kMatrixHeight; y++) {
-    lineStartHue += yHueDelta8;
-    byte pixelHue = lineStartHue;      
-    for( byte x = 0; x < kMatrixWidth; x++) {
-      pixelHue += xHueDelta8;
-      leds[ XY(x, y)]  = CHSV( pixelHue, 255, 255);
-    }
+    FastLED.show();
+  }
+  else if (animationIndex == 1) {
+    MirroredNoise();
+    FastLED.show();
+  }
+  else if (animationIndex == 2) {
+    RedClouds();
+    FastLED.show();
+  }
+  else if (animationIndex == 3) {
+    Lavalamp1();
+    FastLED.show();
+  }
+  else if (animationIndex == 4) {
+    Lavalamp2();
+    FastLED.show();
   }
 }
 
@@ -62,5 +56,6 @@ void setup() {
   FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness( BRIGHTNESS );
   Serial.begin(9600);
+  encoder.begin();
 }
 
