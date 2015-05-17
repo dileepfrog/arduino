@@ -43,4 +43,8 @@ Rotary quadrature encoder + momentary switch with knob
   - http://www.adafruit.com/datasheets/pec11.pdf
   - http://www.adafruit.com/datasheets/EPD-200732.pdf
 
+## Visual inspiration
+
+![Image of Cardio System](![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png))
+https://github.com/dileepfrog/arduino/blob/master/CardioAnimated.gif
 
