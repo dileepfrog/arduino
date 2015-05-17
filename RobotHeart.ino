@@ -10,9 +10,9 @@
 
 #define BPM       118
 #define DIMMEST   10
-#define BRIGHTEST 40
+#define BRIGHTEST 220
 
-#define BRIGHTNESS 64
+#define INITIAL_BRIGHTNESS 64
 
 // Params for width and height
 const uint8_t kMatrixWidth = 16;
@@ -21,7 +21,7 @@ const uint8_t kMatrixHeight = 16;
 #define NUM_STRIP_LEDS 144
 #define NUM_STRIPS 2 // Total number of parallel strips including matrix
 // The matrix has the highest LED count so this becomes the de facto led count
-  // per strip for OctoWS2811
+// per strip for OctoWS2811
 CRGB leds[NUM_MATRIX_LEDS*(NUM_STRIPS+1)];
 
 // Rotary encoder to select animation
@@ -127,8 +127,8 @@ void loop() {
 void setup() {
   // The chest matrix has the highest LED count so this becomes the de facto 
   // led count per strip for OctoWS2811
-  FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_STRIPS+1);
-  FastLED.setBrightness( BRIGHTNESS );
+  FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_MATRIX_LEDS);
+  FastLED.setBrightness( INITIAL_BRIGHTNESS );
   Serial.begin(9600);
   encoder.begin();
 }

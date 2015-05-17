@@ -693,14 +693,3 @@ void Caleido7() {
   Caleidoscope1();
   FilterAll();
 }
-
-
-// a brightness mask based on layer 0 for the complete screenbuffer
-
-void FilterAll() {
-  for(uint8_t i = 0; i < kMatrixWidth; i++) {
-    for(uint8_t j = 0; j < kMatrixHeight; j++) {
-      leds[XY(i,j)] %= noise[0][i][j];
-    }
-  }
-}
