@@ -32,16 +32,15 @@ Pin allocation:
 ## Components
 
 Teensy 3.1
+  - https://www.pjrc.com/teensy/teensy31.html
 
-  https://www.pjrc.com/teensy/teensy31.html
-  
-  
 OctoWS2811 Adapter
-  https://www.pjrc.com/store/octo28_adaptor.html
-  https://www.pjrc.com/teensy/td_libs_OctoWS2811.html
+  - https://www.pjrc.com/store/octo28_adaptor.html
+  - https://www.pjrc.com/teensy/td_libs_OctoWS2811.html
+
 Rotary quadrature encoder + momentary switch with knob
-  https://www.adafruit.com/product/377
-  http://www.adafruit.com/datasheets/pec11.pdf
-  http://www.adafruit.com/datasheets/EPD-200732.pdf
+  - https://www.adafruit.com/product/377
+  - http://www.adafruit.com/datasheets/pec11.pdf
+  - http://www.adafruit.com/datasheets/EPD-200732.pdf
 
 
