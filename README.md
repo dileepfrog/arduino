@@ -32,7 +32,10 @@ Pin allocation:
 ## Components
 
 Teensy 3.1
+
   https://www.pjrc.com/teensy/teensy31.html
+  
+  
 OctoWS2811 Adapter
   https://www.pjrc.com/store/octo28_adaptor.html
   https://www.pjrc.com/teensy/td_libs_OctoWS2811.html
