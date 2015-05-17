@@ -131,12 +131,98 @@ void MergeMethod4(byte colorrepeat) {
   }
 }
 
+// draw the part between lower and upper limit of one layer
+
+void ConstrainedMapping(byte layer, byte lower_limit, byte upper_limit, byte colorrepeat) {
+
+  for(uint8_t i = 0; i < kMatrixWidth; i++) {
+    for(uint8_t j = 0; j < kMatrixHeight; j++) {
+
+      uint8_t data =  noise[layer][i][j] ;
+
+      if ( data >= lower_limit  && data <= upper_limit) {
+
+        CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (data + colorshift), data );
+
+        leds[XY(i,j)] = pixel;
+      }
+    }
+  }
+}
+
 void PaletteRed() {
   currentPalette = CRGBPalette16( 
   CHSV( 0, 255, 255 ), 
   CHSV( 0, 255, 0   ), 
   CHSV( 0, 255, 0   ),
   CHSV( 0, 255, 255)); 
+}
+
+// All the caleidoscope functions work directly within the screenbuffer (leds array).
+// Draw whatever you like in the area x(0-15) and y (0-15) and then copy it arround.
+
+// rotates the first 16x16 quadrant 3 times onto a 32x32 (+90 degrees rotation for each one)
+
+void Caleidoscope1() {
+  for(int x = 0; x < kMatrixWidth / 2 ; x++) {
+    for(int y = 0; y < kMatrixHeight / 2; y++) {
+      leds[XY( kMatrixWidth - 1 - x, y )] = leds[XY( y, x )];    
+      leds[XY( kMatrixWidth - 1 - x, kMatrixHeight - 1 - y )] = leds[XY( x, y )];    
+      leds[XY( x, kMatrixHeight - 1 - y )] = leds[XY( y, x )];    
+    }
+  }
+}
+
+
+// mirror the first 16x16 quadrant 3 times onto a 32x32
+
+void Caleidoscope2() {
+  for(int x = 0; x < kMatrixWidth / 2 ; x++) {
+    for(int y = 0; y < kMatrixHeight / 2; y++) {
+      leds[XY( kMatrixWidth - 1 - x, y )] = leds[XY( x, y )];              
+      leds[XY( x, kMatrixHeight - 1 - y )] = leds[XY( x, y )];             
+      leds[XY( kMatrixWidth - 1 - x, kMatrixHeight - 1 - y )] = leds[XY( x, y )]; 
+    }
+  }
+}
+
+
+// copy one diagonal triangle into the other one within a 16x16
+
+void Caleidoscope3() {
+  for(int x = 0; x <= CentreX ; x++) {
+    for(int y = 0; y <= x; y++) {
+      leds[XY( x, y )] = leds[XY( y, x )]; 
+    }
+  }
+}  
+
+
+// copy one diagonal triangle into the other one within a 16x16 (90 degrees rotated compared to Caleidoscope3)
+
+void Caleidoscope4() {
+  for(int x = 0; x <= CentreX ; x++) {
+    for(int y = 0; y <= CentreY-x; y++) {
+      leds[XY( CentreY - y, CentreX - x )] = leds[XY( x, y )]; 
+    }
+  }
+}  
+
+
+// copy one diagonal triangle into the other one within a 8x8
+
+void Caleidoscope5() {
+  for(int x = 0; x < kMatrixWidth/4 ; x++) {
+    for(int y = 0; y <= x; y++) {
+      leds[XY( x, y )] = leds[XY( y, x )];
+    }
+  }
+
+  for(int x = kMatrixWidth/4; x < kMatrixWidth/2 ; x++) {
+    for(int y = kMatrixHeight/4; y >= 0; y--) {
+      leds[XY( x, y )] = leds[XY( y, x )];
+    }
+  }
 }
 
 // This function will return the right 'led index number' for 
@@ -207,7 +293,9 @@ CRGB CRGBInHeart( CRGB color, uint8_t x, uint8_t y )
 // Black out the screen
 void CLS()  
 {
-  for(int i = 0; i < NUM_LEDS; i++) {
+  // TODO Can optimize by skipping sparse elements in second two rows which
+  // have less LEDs that the matrix
+  for(int i = 0; i < NUM_MATRIX_LEDS*TOTAL_NUM_STRIPS; i++) {
     leds[i] = 0;
   }
 }
