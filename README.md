@@ -45,5 +45,4 @@ Rotary quadrature encoder + momentary switch with knob
 
 ## Visual inspiration
 
-![Image of Cardio System](![Image of Yaktocat](https://github.com/dileepfrog/arduino/blob/master/CardioAnimated.gif))
-
+![Image of Cardio System](https://github.com/dileepfrog/arduino/blob/master/CardioAnimated.gif)
