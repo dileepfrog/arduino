@@ -71,7 +71,10 @@ void MergeMethod1(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      leds[XY(i,j)] = pixel;
+      if (heartModeEnabled)
+        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
+      else
+        leds[XY(i,j)] = pixel;
     }
   }
 } 
@@ -95,7 +98,10 @@ void MergeMethod2(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      leds[XY(i,j)] = pixel;
+      if (heartModeEnabled)
+        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
+      else
+        leds[XY(i,j)] = pixel;
     }
   }
 }
@@ -119,7 +125,10 @@ void MergeMethod3(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      leds[XY(i,j)] = pixel;
+      if (heartModeEnabled)
+        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
+      else
+        leds[XY(i,j)] = pixel;
     }
   }
 }
@@ -141,7 +150,10 @@ void MergeMethod4(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      leds[XY(i,j)] = pixel;
+      if (heartModeEnabled)
+        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
+      else
+        leds[XY(i,j)] = pixel;
     }
   }
 }
@@ -159,6 +171,9 @@ void ConstrainedMapping(byte layer, byte lower_limit, byte upper_limit, byte col
 
         CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (data + colorshift), data );
 
+        if (heartModeEnabled)
+        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
+      else
         leds[XY(i,j)] = pixel;
       }
     }

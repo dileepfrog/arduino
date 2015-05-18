@@ -16,25 +16,18 @@ RotaryEncoderWithButton::RotaryEncoderWithButton(
 
 	_lastButtonPressedAt = 0;
 	_buttonPin = buttonPin;
-	_hasNotReadRotary = true;
+  _lastRotaryValue = 0;
 	encoder = new Encoder(rotaryPinA, rotaryPinB);
 }
 
 void RotaryEncoderWithButton::begin() {
 	pinMode(_buttonPin, INPUT);
 	digitalWrite(_buttonPin, HIGH);
+  encoder->write(0);
 }
 
-uint32_t RotaryEncoderWithButton::rotaryDelta() {
-	uint32_t knobValue = encoder->read();
-	if (_hasNotReadRotary) {
-		_lastRotaryValue = knobValue;
-		_hasNotReadRotary = false;
-	}
-
-	uint32_t delta = _lastRotaryValue - knobValue;
-	_lastRotaryValue = knobValue;
-	return delta;
+int32_t RotaryEncoderWithButton::read() {
+	return encoder->read();
 }
 
 bool isDebouncingButton = false;

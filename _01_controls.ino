@@ -1,24 +1,37 @@
-uint16_t lastTurnAt;
-uint8_t lastTurnDelta;
+uint32_t lastTurnAt;
+int32_t lastPosition = 0;
+int32_t positionAtStartOfDebounce = 0;
+bool isDebouncingRotary = false;
 
 void readEncoderPosition() {
-  long delta = encoder.rotaryDelta();
-  if (delta != 0) {
+  int32_t currentPosition = encoder.read();
+  if (currentPosition != lastPosition) {
     lastTurnAt = millis();
-    lastTurnDelta = delta;
+    lastPosition = currentPosition;
+    if (!isDebouncingRotary) {
+      positionAtStartOfDebounce = currentPosition;
+      isDebouncingRotary = true;
+    }
   }
   
-  if (lastTurnDelta != 0 && millis() - lastTurnAt > 200) {  
-    if (lastTurnDelta > 0) {
-      animationIndex = (animationIndex+1)%numAnimations;
-      lastTurnDelta = 0;
-      CLS();
-    }
-    else if (lastTurnDelta < 0) {
-      animationIndex = (animationIndex-1)%numAnimations;
-      lastTurnDelta = 0;
-      CLS();
-    }
+  // Check if rotary position is now stable
+  if (isDebouncingRotary && millis() - lastTurnAt > 500) {
+    int32_t delta = currentPosition - positionAtStartOfDebounce;
+    if (delta > 0)
+      animationIndex++;
+    else if (delta < 0)
+      animationIndex--;
+
+    // Wrap around
+    if (animationIndex < 0)
+      animationIndex = numAnimations + animationIndex;
+    else if (animationIndex > 0)
+      animationIndex = animationIndex % numAnimations;
+
+    Serial.println(animationIndex);
+
+    CLS();
+    isDebouncingRotary = false;
   }
   
   if (encoder.buttonClicked()) {

@@ -21,6 +21,8 @@
 #include <pins_arduino.h>
 #endif
 
+#define ENCODER_OPTIMIZE_INTERRUPTS
+
 #include <Encoder.h>
 
 #define DEBOUNCE_DELAY 		30
@@ -34,7 +36,7 @@ public:
 	RotaryEncoderWithButton(uint8_t rotaryPinA, uint8_t rotaryPinB, uint8_t buttonPin);
 	void begin();
 	bool buttonClicked();
-	uint32_t rotaryDelta();
+	int32_t read();
 
 	Encoder *encoder;
 private:

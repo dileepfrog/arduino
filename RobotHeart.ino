@@ -39,86 +39,62 @@ void loop() {
     FastLED.show();
   }
   else if (animationIndex == 1) {
-    MirroredNoise();
-    FastLED.show();
-  }
-  else if (animationIndex == 2) {
-    RedClouds();
-    FastLED.show();
-  }
-  else if (animationIndex == 3) {
     Lavalamp1();
     FastLED.show();
   }
-  else if (animationIndex == 4) {
+  else if (animationIndex == 2) {
     Lavalamp2();
     FastLED.show();
   }
-  else if (animationIndex == 5) {
-    Lavalamp3();
-    FastLED.show();
-  }
-  else if (animationIndex == 6) {
-    Lavalamp4();
-    FastLED.show();
-  }
-  else if (animationIndex == 7) {
-    Lavalamp5();
-    FastLED.show();
-  }
-  else if (animationIndex == 8) {
+  else if (animationIndex == 3) {
     Constrained1();
     FastLED.show();
   }
-  else if (animationIndex == 9) {
+  else if (animationIndex == 4) {
     RelativeMotion1();
     FastLED.show();
   }
-  else if (animationIndex == 10) {
+  else if (animationIndex == 5) {
     Water();
     FastLED.show();
   }
-  else if (animationIndex == 11) {
-    Bubbles1();
-    FastLED.show();
-  }
-  else if (animationIndex == 12) {
+  else if (animationIndex == 6) { // Awesome
     TripleMotion();
     FastLED.show();
   }
-  else if (animationIndex == 13) {
+  else if (animationIndex == 7) {
     CrossNoise();
     FastLED.show();
   }
-  else if (animationIndex == 14) {
+  else if (animationIndex == 8) {
     CrossNoise2();
     FastLED.show();
   }
-  else if (animationIndex == 15) {
+  else if (animationIndex == 9) {
     Caleido1();
     FastLED.show();
   }
-  else if (animationIndex == 16) {
+  else if (animationIndex == 10) {
     Caleido2();
     FastLED.show();
   }
-  else if (animationIndex == 17) {
+  else if (animationIndex == 11) {
     Caleido3();
     FastLED.show();
   }
-  else if (animationIndex == 18) {
+  else if (animationIndex == 12) {
     Caleido4();
     FastLED.show();
   }
-  else if (animationIndex == 19) {
+  else if (animationIndex == 13) {
     Caleido5();
     FastLED.show();
   }
-  else if (animationIndex == 20) {
+  else if (animationIndex == 14) {
     Caleido6();
     FastLED.show();
   }
-  else if (animationIndex == 21) {
+  else if (animationIndex == 15) {
     Caleido7();
     FastLED.show();
   }
