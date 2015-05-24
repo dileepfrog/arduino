@@ -39,3 +39,10 @@ void readEncoderPosition() {
   }
 }
 
+uint16_t potentiometerValue;
+void readPotentiometerAndSetBrightness() {
+  potentiometerValue = analogRead(23);
+  // Pot values are 0-1023 so scale to our brightness range
+  uint8_t brightness = DIMMEST + (BRIGHTEST - DIMMEST) * (potentiometerValue/1024.0);
+  FastLED.setBrightness(brightness);
+}

@@ -71,10 +71,7 @@ void MergeMethod1(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      if (heartModeEnabled)
-        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
-      else
-        leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = CRGBInHeart(pixel, i, j);
     }
   }
 } 
@@ -98,10 +95,7 @@ void MergeMethod2(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      if (heartModeEnabled)
-        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
-      else
-        leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = pixel;
     }
   }
 }
@@ -125,10 +119,7 @@ void MergeMethod3(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      if (heartModeEnabled)
-        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
-      else
-        leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = pixel;
     }
   }
 }
@@ -150,10 +141,7 @@ void MergeMethod4(byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      if (heartModeEnabled)
-        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
-      else
-        leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = pixel;
     }
   }
 }
@@ -171,10 +159,7 @@ void ConstrainedMapping(byte layer, byte lower_limit, byte upper_limit, byte col
 
         CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (data + colorshift), data );
 
-        if (heartModeEnabled)
-        leds[XY(i,j)] = CRGBInHeart(pixel, i, j);
-      else
-        leds[XY(i,j)] = pixel;
+        leds[heartXY(i,j)] = pixel;
       }
     }
   }
@@ -188,9 +173,9 @@ void ConstrainedMapping(byte layer, byte lower_limit, byte upper_limit, byte col
 void Caleidoscope1() {
   for(int x = 0; x < kMatrixWidth / 2 ; x++) {
     for(int y = 0; y < kMatrixHeight / 2; y++) {
-      leds[XY( kMatrixWidth - 1 - x, y )] = leds[XY( y, x )];    
-      leds[XY( kMatrixWidth - 1 - x, kMatrixHeight - 1 - y )] = leds[XY( x, y )];    
-      leds[XY( x, kMatrixHeight - 1 - y )] = leds[XY( y, x )];    
+      leds[heartXY( kMatrixWidth - 1 - x, y )] = leds[XY( y, x )];    
+      leds[heartXY( kMatrixWidth - 1 - x, kMatrixHeight - 1 - y )] = leds[XY( x, y )];    
+      leds[heartXY( x, kMatrixHeight - 1 - y )] = leds[XY( y, x )];
     }
   }
 }
@@ -201,9 +186,9 @@ void Caleidoscope1() {
 void Caleidoscope2() {
   for(int x = 0; x < kMatrixWidth / 2 ; x++) {
     for(int y = 0; y < kMatrixHeight / 2; y++) {
-      leds[XY( kMatrixWidth - 1 - x, y )] = leds[XY( x, y )];              
-      leds[XY( x, kMatrixHeight - 1 - y )] = leds[XY( x, y )];             
-      leds[XY( kMatrixWidth - 1 - x, kMatrixHeight - 1 - y )] = leds[XY( x, y )]; 
+      leds[heartXY( kMatrixWidth - 1 - x, y )] = leds[XY( x, y )];              
+      leds[heartXY( x, kMatrixHeight - 1 - y )] = leds[XY( x, y )];             
+      leds[heartXY( kMatrixWidth - 1 - x, kMatrixHeight - 1 - y )] = leds[XY( x, y )]; 
     }
   }
 }
@@ -214,7 +199,7 @@ void Caleidoscope2() {
 void Caleidoscope3() {
   for(int x = 0; x <= CentreX ; x++) {
     for(int y = 0; y <= x; y++) {
-      leds[XY( x, y )] = leds[XY( y, x )]; 
+      leds[heartXY( x, y )] = leds[XY( y, x )]; 
     }
   }
 }  
@@ -225,7 +210,7 @@ void Caleidoscope3() {
 void Caleidoscope4() {
   for(int x = 0; x <= CentreX ; x++) {
     for(int y = 0; y <= CentreY-x; y++) {
-      leds[XY( CentreY - y, CentreX - x )] = leds[XY( x, y )]; 
+      leds[heartXY( CentreY - y, CentreX - x )] = leds[XY( x, y )]; 
     }
   }
 }  
@@ -236,13 +221,13 @@ void Caleidoscope4() {
 void Caleidoscope5() {
   for(int x = 0; x < kMatrixWidth/4 ; x++) {
     for(int y = 0; y <= x; y++) {
-      leds[XY( x, y )] = leds[XY( y, x )];
+      leds[heartXY( x, y )] = leds[XY( y, x )];
     }
   }
 
   for(int x = kMatrixWidth/4; x < kMatrixWidth/2 ; x++) {
     for(int y = kMatrixHeight/4; y >= 0; y--) {
-      leds[XY( x, y )] = leds[XY( y, x )];
+      leds[heartXY( x, y )] = leds[XY( y, x )];
     }
   }
 }
@@ -272,7 +257,7 @@ void ShowLayer(byte layer, byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = pixel;
     }
   }
 }
@@ -290,7 +275,7 @@ void ShowLayerBright(byte layer, byte colorrepeat) {
       // assign a color depending on the actual palette
       CRGB pixel = ColorFromPalette( currentPalette, colorrepeat * (color + colorshift), bri );
 
-      leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = pixel;
     }
   }
 }
@@ -303,17 +288,17 @@ void ShowLayerBright(byte layer, byte colorrepeat) {
 void Show3Layers() {
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 0; j < 16; j++) {
-      leds[XY(i,j)] = ColorFromPalette( currentPalette, noise[0][i*2][j*2]*2 , 255 );
+      leds[heartXY(i,j)] = ColorFromPalette( currentPalette, noise[0][i*2][j*2]*2 , 255 );
     }
   }
   for(uint8_t i = 16; i < 32; i++) {
     for(uint8_t j = 0; j < 16; j++) {
-      leds[XY(i,j)] = ColorFromPalette( currentPalette, noise[1][(i-16)*2][j*2]*2 , 255 );
+      leds[heartXY(i,j)] = ColorFromPalette( currentPalette, noise[1][(i-16)*2][j*2]*2 , 255 );
     }
   }
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 16; j < 32; j++) {
-      leds[XY(i,j)] = ColorFromPalette( currentPalette, noise[2][i*2][(j-16)*2]*2 , 255 );
+      leds[heartXY(i,j)] = ColorFromPalette( currentPalette, noise[2][i*2][(j-16)*2]*2 , 255 );
     }
   }
 }
@@ -347,7 +332,7 @@ void CrossMapping(byte colorrepeat, byte limit) {
       else {
         pixel = ColorFromPalette( currentPalette, colorrepeat * (color2 + colorshift + 128), color1 );
       }
-      leds[XY(i,j)] = pixel;
+      leds[heartXY(i,j)] = pixel;
     }
   }
 }
@@ -358,7 +343,7 @@ void CrossMapping(byte colorrepeat, byte limit) {
 void FilterAll() {
   for(uint8_t i = 0; i < kMatrixWidth; i++) {
     for(uint8_t j = 0; j < kMatrixHeight; j++) {
-      leds[XY(i,j)] %= noise[0][i][j];
+      leds[heartXY(i,j)] %= noise[0][i][j];
     }
   }
 }

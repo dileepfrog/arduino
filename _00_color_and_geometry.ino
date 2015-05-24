@@ -31,6 +31,13 @@ uint16_t XY( uint8_t x, uint8_t y)
   return i;
 }
 
+uint16_t XYsafe( uint8_t x, uint8_t y)
+{
+  if( x >= kMatrixWidth) return -1;
+  if( y >= kMatrixHeight) return -1;
+  return XY(x,y);
+}
+
 // This mask is used to determine if a requested coordinate
 // falls into our virtual canvas bounds
 static uint8_t const heart_mask[][16] = {
@@ -51,6 +58,21 @@ static uint8_t const heart_mask[][16] = {
   {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0}
 };
+
+uint16_t heartXY( uint8_t x, uint8_t y)
+{
+  // Because the strips are only 144 pixels vs 256 for the matrix, the 145th
+  // pixel on the strip exists in our led array but is invisible, making it
+  // ideal to dump colors to that we don't want to draw (outside of the heart mask)
+  uint16_t safetyPixel = NUM_MATRIX_LEDS + NUM_STRIP_LEDS + 1;
+  if (heartModeEnabled) {
+    if( x >= kMatrixWidth) return safetyPixel;
+    if( y >= kMatrixHeight) return safetyPixel;
+    if(heart_mask[y][x] == 0) return safetyPixel;
+  }
+
+  return XY(x,y);
+}
 
 // Apply the mask by passing all colors through this method which will
 // return black for coordinates outside our mask

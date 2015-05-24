@@ -9,8 +9,8 @@
 #define CHIPSET OCTOWS2811
 
 #define BPM       118
-#define DIMMEST   10
-#define BRIGHTEST 220
+#define DIMMEST   5
+#define BRIGHTEST 256
 
 #define INITIAL_BRIGHTNESS 64
 
@@ -23,18 +23,21 @@ const uint8_t kMatrixHeight = 16;
 // The matrix has the highest LED count so this becomes the de facto led count
 // per strip for OctoWS2811
 CRGB leds[NUM_MATRIX_LEDS*(NUM_STRIPS+1)];
+CRGB *leftArmLeds(leds+NUM_MATRIX_LEDS);
+CRGB *rightArmLeds(leftArmLeds+NUM_MATRIX_LEDS);
 
 // Rotary encoder to select animation
 // pinA, pinB, pinButton
 RotaryEncoderWithButton encoder(5,9,10);
 uint8_t animationIndex = 0; // Updated by readEncoderPosition
-uint8_t numAnimations = 22;
+uint8_t numAnimations = 16;
 bool heartModeEnabled = false;
 
 void loop() {
   readEncoderPosition();
+  readPotentiometerAndSetBrightness();
 
-  if (animationIndex == 0) {
+  if (animationIndex == 6) {
     pinWheelLoop();
     FastLED.show();
   }
@@ -58,23 +61,24 @@ void loop() {
     Water();
     FastLED.show();
   }
-  else if (animationIndex == 6) { // Awesome
+  else if (animationIndex == 0) { // Awesome
     TripleMotion();
+    stripbpm();
     FastLED.show();
   }
-  else if (animationIndex == 7) {
+  else if (animationIndex == 7) { // Remove
     CrossNoise();
     FastLED.show();
   }
-  else if (animationIndex == 8) {
+  else if (animationIndex == 8) { // Remove
     CrossNoise2();
     FastLED.show();
   }
-  else if (animationIndex == 9) {
+  else if (animationIndex == 9) { // Too fast
     Caleido1();
     FastLED.show();
   }
-  else if (animationIndex == 10) {
+  else if (animationIndex == 10) { // Nifty
     Caleido2();
     FastLED.show();
   }
@@ -106,6 +110,8 @@ void setup() {
   FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_MATRIX_LEDS);
   FastLED.setBrightness( INITIAL_BRIGHTNESS );
   Serial.begin(9600);
+  //pinMode(11, INPUT);
   encoder.begin();
+  CLS();
 }
 
