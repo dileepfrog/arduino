@@ -85,7 +85,7 @@ CRGB CRGBInHeart( CRGB color, uint8_t x, uint8_t y )
   return color;
 }
 
-// Black out the screen
+// Black out the matrix
 void CLS()  
 {
   // TODO Can optimize by skipping sparse elements in second two rows which

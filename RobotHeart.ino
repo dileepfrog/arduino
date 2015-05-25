@@ -22,7 +22,8 @@ const uint8_t kMatrixHeight = 16;
 #define NUM_STRIPS 2 // Total number of parallel strips including matrix
 // The matrix has the highest LED count so this becomes the de facto led count
 // per strip for OctoWS2811
-CRGB leds[NUM_MATRIX_LEDS*(NUM_STRIPS+1)];
+#define NUM_LEDS NUM_MATRIX_LEDS*(NUM_STRIPS+1)
+CRGB leds[NUM_LEDS];
 CRGB *leftArmLeds(leds+NUM_MATRIX_LEDS);
 CRGB *rightArmLeds(leftArmLeds+NUM_MATRIX_LEDS);
 
@@ -30,78 +31,48 @@ CRGB *rightArmLeds(leftArmLeds+NUM_MATRIX_LEDS);
 // pinA, pinB, pinButton
 RotaryEncoderWithButton encoder(5,9,10);
 uint8_t animationIndex = 0; // Updated by readEncoderPosition
-uint8_t numAnimations = 16;
+uint8_t numAnimations = 11;
 bool heartModeEnabled = false;
 
 void loop() {
   readEncoderPosition();
   readPotentiometerAndSetBrightness();
 
-  if (animationIndex == 6) {
-    pinWheelLoop();
-    FastLED.show();
+  if (animationIndex == 0) {
+    Lavalamp1();
   }
   else if (animationIndex == 1) {
-    Lavalamp1();
-    FastLED.show();
-  }
-  else if (animationIndex == 2) {
     Lavalamp2();
-    FastLED.show();
   }
-  else if (animationIndex == 3) {
+  else if (animationIndex == 2) { // Red+blue wind
     Constrained1();
-    FastLED.show();
   }
-  else if (animationIndex == 4) {
+  else if (animationIndex == 3) { 
     RelativeMotion1();
-    FastLED.show();
   }
-  else if (animationIndex == 5) {
-    Water();
-    FastLED.show();
-  }
-  else if (animationIndex == 0) { // Awesome
-    TripleMotion();
-    stripbpm();
-    FastLED.show();
-  }
-  else if (animationIndex == 7) { // Remove
-    CrossNoise();
-    FastLED.show();
-  }
-  else if (animationIndex == 8) { // Remove
-    CrossNoise2();
-    FastLED.show();
-  }
-  else if (animationIndex == 9) { // Too fast
+  else if (animationIndex == 4) { // Rainbow color splashes good with heart
     Caleido1();
-    FastLED.show();
   }
-  else if (animationIndex == 10) { // Nifty
+  else if (animationIndex == 5) { // Nifty
     Caleido2();
-    FastLED.show();
   }
-  else if (animationIndex == 11) {
+  else if (animationIndex == 6) {
     Caleido3();
-    FastLED.show();
   }
-  else if (animationIndex == 12) {
+  else if (animationIndex == 7) { // Smooth
     Caleido4();
-    FastLED.show();
   }
-  else if (animationIndex == 13) {
+  else if (animationIndex == 8) { // Slow, maybe needs dithering?
     Caleido5();
-    FastLED.show();
   }
-  else if (animationIndex == 14) {
+  else if (animationIndex == 9) { // Trippy mandalas
     Caleido6();
-    FastLED.show();
   }
-  else if (animationIndex == 15) {
+  else if (animationIndex == 10) { // Smooth trippy mandalas
     Caleido7();
-    FastLED.show();
   }
+  pop_fade();
+  FastLED.show();
 }
 
 void setup() {

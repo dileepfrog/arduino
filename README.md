@@ -27,7 +27,7 @@ Pin allocation:
   - 20 (Reserved OctoWS2811)
   - 21 (Reserved OctoWS2811)
   - 22 AVAILABLE
-  - 23 AVAILABLE
+  - 23 Potentiometer
 
 ## Components
 
@@ -43,6 +43,13 @@ Rotary quadrature encoder + momentary switch with knob
   - http://www.adafruit.com/datasheets/pec11.pdf
   - http://www.adafruit.com/datasheets/EPD-200732.pdf
 
+Linear potentiometer + T18 knob
+  - https://www.adafruit.com/product/562
+  - http://www.adafruit.com/datasheets/p160.pdf
+  - https://www.adafruit.com/products/2048
+
 ## Visual inspiration
+
+Human cardiovascular system
 
 ![Image of Cardio System](https://github.com/dileepfrog/arduino/blob/master/CardioAnimated.gif)
