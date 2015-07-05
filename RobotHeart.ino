@@ -22,14 +22,16 @@ const uint8_t kMatrixHeight = 16;
 #define NUM_STRIPS 2 // Total number of parallel strips including matrix
 // The matrix has the highest LED count so this becomes the de facto led count
 // per strip for OctoWS2811
-#define NUM_LEDS NUM_MATRIX_LEDS*(NUM_STRIPS+1)
-CRGB leds[NUM_LEDS];
-CRGB *leftArmLeds(leds+NUM_MATRIX_LEDS);
-CRGB *rightArmLeds(leftArmLeds+NUM_MATRIX_LEDS);
+//#define NUM_LEDS NUM_MATRIX_LEDS*(NUM_STRIPS+1)
+CRGB leds[NUM_MATRIX_LEDS];
+//CRGB *leftArmLeds(leds+NUM_MATRIX_LEDS);
+//CRGB *rightArmLeds(leftArmLeds+NUM_MATRIX_LEDS);
+CRGB leftArmLeds[NUM_STRIP_LEDS];
+CRGB rightArmLeds[NUM_STRIP_LEDS];
 
 // Rotary encoder to select animation
 // pinA, pinB, pinButton
-RotaryEncoderWithButton encoder(5,9,10);
+RotaryEncoderWithButton encoder(11,10,5);
 uint8_t animationIndex = 0; // Updated by readEncoderPosition
 uint8_t numAnimations = 11;
 bool heartModeEnabled = false;
@@ -37,6 +39,8 @@ bool heartModeEnabled = false;
 void loop() {
   readEncoderPosition();
   readPotentiometerAndSetBrightness();
+
+  Serial.println(animationIndex);
 
   if (animationIndex == 0) {
     Lavalamp1();
@@ -76,12 +80,17 @@ void loop() {
 }
 
 void setup() {
+  delay(2000);
+  // FIXME OctoWS2811 does not appear to be working on external power - DMA pin issue?
   // The chest matrix has the highest LED count so this becomes the de facto 
   // led count per strip for OctoWS2811
-  FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_MATRIX_LEDS);
+  //FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_MATRIX_LEDS);
+  FastLED.addLeds<WS2811, 2, COLOR_ORDER>(leds, NUM_MATRIX_LEDS).setCorrection( TypicalLEDStrip );
+  FastLED.addLeds<WS2811, 14, COLOR_ORDER>(leftArmLeds, NUM_STRIP_LEDS).setCorrection( TypicalLEDStrip );
+  FastLED.addLeds<WS2811, 7, COLOR_ORDER>(rightArmLeds, NUM_STRIP_LEDS).setCorrection( TypicalLEDStrip );
   FastLED.setBrightness( INITIAL_BRIGHTNESS );
-  Serial.begin(9600);
-  //pinMode(11, INPUT);
+  //Serial.begin(9600);
+  pinMode(23, INPUT);
   encoder.begin();
   CLS();
 }

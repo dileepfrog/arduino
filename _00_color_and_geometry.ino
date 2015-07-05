@@ -86,12 +86,27 @@ CRGB CRGBInHeart( CRGB color, uint8_t x, uint8_t y )
 }
 
 // Black out the matrix
+/*
 void CLS()  
 {
   // TODO Can optimize by skipping sparse elements in second two rows which
   // have less LEDs that the first row (chest matrix)
   for(int i = 0; i < NUM_MATRIX_LEDS*(NUM_STRIPS+1); i++) {
     leds[i] = 0;
+  }
+}
+*/
+
+void CLS()  
+{
+  // TODO Can optimize by skipping sparse elements in second two rows which
+  // have less LEDs that the first row (chest matrix)
+  for(int i = 0; i < NUM_MATRIX_LEDS; i++) {
+    leds[i] = 0;
+  }
+  for(int i = 0; i < NUM_STRIP_LEDS; i++) {
+    leftArmLeds[i] = 0;
+    rightArmLeds[i] = 0;
   }
 }
 
