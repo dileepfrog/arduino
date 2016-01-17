@@ -61,8 +61,12 @@ void pop_fade() {
   if (idex < NUM_STRIP_LEDS) {                                      // Only the lowest probability twinkles will do.
     boolcolours ? thiscolour = random(0, 0xffffff) : thiscolour =  colours[random16(0, numcolours)];     
     int barlen = random16(1,maxbar);
-    for (int i = 0; i <barlen; i++) 
-      if (idex+i < NUM_STRIP_LEDS) leftArmLeds[idex+i] = thiscolour;       // Make sure we don't overshoot the array.
+    for (int i = 0; i <barlen; i++) {
+      if (idex+i < NUM_STRIP_LEDS)  {
+        leftArmLeds[idex+i] = rightArmLeds[idex+i] = thiscolour;       // Make sure we don't overshoot the array.
+      }
+    }
+    nscale8(leftArmLeds,NUM_STRIP_LEDS,fadeval);                          // Fade the entire array. Or for just a few LED's, use  nscale8(&leds[2], 5, fadeval);
+    nscale8(rightArmLeds,NUM_STRIP_LEDS,fadeval);
   }
-     nscale8(leftArmLeds,NUM_STRIP_LEDS,fadeval);                          // Fade the entire array. Or for just a few LED's, use  nscale8(&leds[2], 5, fadeval);
 }

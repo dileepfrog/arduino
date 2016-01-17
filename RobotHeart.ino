@@ -44,38 +44,48 @@ void loop() {
 
   if (animationIndex == 0) {
     Lavalamp1();
+    sinelon();
   }
-  else if (animationIndex == 1) {
+  else if (animationIndex == 1) {  // Rainbow color splashes good with heart
     Lavalamp2();
+    stripPushPulse();
   }
   else if (animationIndex == 2) { // Red+blue wind
     Constrained1();
+    juggle();
   }
-  else if (animationIndex == 3) { 
+  else if (animationIndex == 3) {  // Green-gold wind
     RelativeMotion1();
+    confetti();
   }
-  else if (animationIndex == 4) { // Rainbow color splashes good with heart
+  else if (animationIndex == 4) { 
     Caleido1();
+    juggle();
   }
   else if (animationIndex == 5) { // Nifty
     Caleido2();
+    stripPushPulse();
   }
   else if (animationIndex == 6) {
     Caleido3();
+    pop_fade();
   }
   else if (animationIndex == 7) { // Smooth
     Caleido4();
+    pop_fade();
   }
   else if (animationIndex == 8) { // Slow, maybe needs dithering?
     Caleido5();
+    pop_fade();
   }
   else if (animationIndex == 9) { // Trippy mandalas
     Caleido6();
+    pop_fade();
   }
   else if (animationIndex == 10) { // Smooth trippy mandalas
     Caleido7();
+    pop_fade();
   }
-  pop_fade();
   FastLED.show();
 }
 
@@ -86,8 +96,8 @@ void setup() {
   // led count per strip for OctoWS2811
   //FastLED.addLeds<CHIPSET, COLOR_ORDER>(leds, NUM_MATRIX_LEDS);
   FastLED.addLeds<WS2811, 2, COLOR_ORDER>(leds, NUM_MATRIX_LEDS).setCorrection( TypicalLEDStrip );
-  FastLED.addLeds<WS2811, 14, COLOR_ORDER>(leftArmLeds, NUM_STRIP_LEDS).setCorrection( TypicalLEDStrip );
-  FastLED.addLeds<WS2811, 7, COLOR_ORDER>(rightArmLeds, NUM_STRIP_LEDS).setCorrection( TypicalLEDStrip );
+  FastLED.addLeds<WS2811, 7, COLOR_ORDER>(leftArmLeds, NUM_STRIP_LEDS).setCorrection( TypicalLEDStrip );
+  FastLED.addLeds<WS2811, 14, COLOR_ORDER>(rightArmLeds, NUM_STRIP_LEDS).setCorrection( TypicalLEDStrip );
   FastLED.setBrightness( INITIAL_BRIGHTNESS );
   //Serial.begin(9600);
   pinMode(23, INPUT);

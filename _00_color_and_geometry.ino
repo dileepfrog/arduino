@@ -21,11 +21,11 @@ uint16_t XY( uint8_t x, uint8_t y)
 
   if(x & 0x01) {
     // Odd rows run backwards
-    uint8_t reverseY = (kMatrixWidth - 1) - y;
-    i = (x * kMatrixWidth) + reverseY;
+    uint8_t reverseY = (kMatrixWidth - 1) - x;
+    i = (y * kMatrixWidth) + reverseY;
   } else {
     // Even rows run forwards
-    i = (x * kMatrixWidth) + y;
+    i = (y * kMatrixWidth) + x;
   }
   
   return i;
